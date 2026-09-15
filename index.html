@@ -38,9 +38,8 @@
     <script>
       const LIFF_ID = "2011066044-9W2pagv5";
 
-      // テスト用GAS
       const GAS_URL =
-        "https://script.google.com/macros/s/AKfycbyZhXRY7CyliO7CgKOV5lJa92lmhMe9TxN8Sx3E0f8QYRw9dcPF4PgoAkuI-9vC1Coa/exec";
+        "https://script.google.com/macros/s/AKfycbz1eSFLwxabykW89URs1gj_FBjxEeMJr6GjUOYYUdgqaS4pW9hPjVresViL_XM5bu6r/exec";
 
       async function main() {
         try {
@@ -70,8 +69,8 @@
           const userId = profile.userId;
           const displayName = profile.displayName;
 
-          console.log("userId:", userId);
-          console.log("displayName:", displayName);
+          // console.log("userId:", userId);
+          // console.log("displayName:", displayName);
 
           document.getElementById("status").textContent =
             "ポイントを確認しています……";
@@ -99,7 +98,7 @@
 
           const result = await response.json();
 
-          console.log("GAS response:", result);
+          // console.log("GAS response:", result);
 
           if (!result.success) {
             document.getElementById("status").textContent =
