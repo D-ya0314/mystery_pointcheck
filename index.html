@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ポイント確認</title>
+  </head>
+
+  <body>
+    <h1>ポイント確認</h1>
+
+    <p id="status">LINEのログイン状況確認</p>
+
+    <div id="result" style="display: none;">
+      <p>現在のポイント</p>
+      <h2><span id="point">0</span> pt</h2>
+
+      <p>
+        ランキング：
+        <span id="rank">-</span>位 /
+        <span id="totalUsers">-</span>人
+      </p>
+
+      <hr>
+
+      <p>次の報酬</p>
+      <p id="nextReward">-</p>
+      <p id="nextPoint"></p>
+    </div>
+
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+
+    <script>
+      const LIFF_ID = "2011066044-9W2pagv5";
+
+      // テスト用GAS
+      const GAS_URL =
+        "https://script.google.com/macros/s/AKfycbyZhXRY7CyliO7CgKOV5lJa92lmhMe9TxN8Sx3E0f8QYRw9dcPF4PgoAkuI-9vC1Coa/exec";
+
+
+      async function main() {
+
+        try {
+
+          // =========================
+          // LIFF初期化
+          // =========================
+
+          await liff.init({
+            liffId: LIFF_ID,
+          });
+
+
+          // =========================
+          // LINEログイン確認
+          // =========================
+
+          if (!liff.isLoggedIn()) {
+            liff.login();
+            return;
+          }
+
+
+          // =========================
+          // LINEプロフィール取得
+          // =========================
+
+          const profile = await liff.getProfile();
+
+          const userId = profile.userId;
+          const displayName = profile.displayName;
+
+          console.log("userId:", userId);
+          console.log("displayName:", displayName);
+
+
+          document.getElementById("status").textContent =
+            "ポイントを確認しています……";
+
+
+          // =========================
+          // GASへポイント確認
+          // =========================
+
+          const response = await fetch(GAS_URL, {
+            method: "POST",
+
+            headers: {
+              "Content-Type": "text/plain;charset=utf-8",
+            },
+
+            body: JSON.stringify({
+              action: "getPoint",
+              userId: userId,
+            }),
+          });
+
+
+          // =========================
+          // GASレスポンス
+          // =========================
+
+          const result = await response.json();
+
+          console.log("GAS response:", result);
+
+
+          if (!result.success) {
+
+            document.getElementById("status").textContent =
+              result.message || "ポイント情報を取得できませんでした";
+
+            return;
+          }
+
+
+          // =========================
+          // 画面表示
+          // =========================
+
+          document.getElementById("status").textContent =
+            `${displayName}さんのポイント情報`;
+
+
+          document.getElementById("point").textContent =
+            result.totalPoint;
+
+
+          document.getElementById("rank").textContent =
+            result.rank;
+
+
+          document.getElementById("totalUsers").textContent =
+            result.totalUsers;
+
+
+          // =========================
+          // 次の報酬
+          // =========================
+
+          if (result.nextReward) {
+
+            document.getElementById("nextReward").textContent =
+              result.nextReward.rewardName;
+
+            const needPoint =
+              result.nextReward.requiredPoint - result.totalPoint;
+
+            document.getElementById("nextPoint").textContent =
+              `あと ${needPoint} pt`;
+
+          } else {
+
+            document.getElementById("nextReward").textContent =
+              "すべての報酬を解放済み！🎉";
+
+            document.getElementById("nextPoint").textContent = "";
+
+          }
+
+
+          document.getElementById("result").style.display =
+            "block";
+
+
+        } catch (error) {
+
+          console.error(error);
+
+          document.getElementById("status").textContent =
+            "エラーが発生しました";
+
+        }
+
+      }
+
+
+      main();
+
+    </script>
+
+  </body>
+</html>
