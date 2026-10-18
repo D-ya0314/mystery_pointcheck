@@ -115,14 +115,14 @@ async function main() {
 
         if (reward.used) {
           div.innerHTML = `
-        <p>
+        <p class="m_p">
           🎁 ${reward.rewardName}<br>
           <small>使用済み</small>
         </p>
       `;
         } else {
           div.innerHTML = `
-        <p>
+        <p class="m_p">
           🎁 ${reward.rewardName}<br>
           <small>未使用</small>
         </p>
