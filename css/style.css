@@ -408,8 +408,8 @@ body {
 }
 
 .m_p {
-  padding: 16px;
-  text-shadow: 2px 3px 3px var(--black-color);
+  font-size: 16px;
+  text-shadow: 1px 1px 1px var(--black-color);
 }
 
 .m_answer {
