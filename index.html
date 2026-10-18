@@ -4,188 +4,114 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ポイント確認</title>
+    <meta name="description" content="ポイント確認" />
+    <meta name="format-detection" content="telephone=no" />
+
+    <!-- favicon/web-clip-icon -->
+    <link rel="icon" href="favicon.ico" type="image/ico" />
+    <link rel="icon" href="favicon.png" type="image/png" />
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="webclip.png" />
+
+    <!-- ogp共有時の表示 -->
+    <meta property="og:site_name" content="ポイント確認" />
+    <meta property="og:url" content="http://127.0.0.1:5500/src/index.html" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="ポイント確認" />
+    <meta property="og:description" content="ポイント確認" />
+    <meta property="og:image" content="URL" />
+    <meta property="og:locale" content="ja_JP" />
+
+    <meta property="fb:app_id" content="AppID" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@twitter_id" />
+    <meta name="twitter:description" content="ポイント確認" />
+    <meta name="twitter:image:src" content="URL" />
+
+    <!-- google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Roboto:wght@400;700&family=Zen+Kurenaido&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- css -->
+    <link rel="stylesheet" href="css/reset.css" />
+    <link rel="stylesheet" href="css/style.css" />
+
+    <!-- js -->
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+    <script src="js/main.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/gsap.min.js"></script>
+
+    <!-- audio -->
+    <audio id="pipon" src="" preload="auto"></audio>
   </head>
 
   <body>
-    <h1>ポイント確認</h1>
+    <header class="l_header js_header">
+      <h1 class="l_header_logo">
+        <p class="l_header_link">探偵手帳</p>
+      </h1>
+      <nav class="l_header-nav js_nav">
+        <ul class="l_header-nav_list">
+          <li class="l_header-nav_item">
+            <a
+              href="https://liff.line.me/2011066044-aC6gMP3A"
+              class="l_header-nav_link"
+              >TikTok配信過去問1-5</a
+            >
+          </li>
+          <li class="l_header-nav_item">
+            <a
+              href="https://liff.line.me/2011066044-5TOjxXbK"
+              class="l_header-nav_link"
+              >TikTok配信過去問6-10</a
+            >
+          </li>
+        </ul>
+      </nav>
+      <button class="m_hamburger js_hamburger">
+        <span class="m_hamburger-bar"></span>
+        <span class="m_hamburger-bar"></span>
+        <span class="m_hamburger-bar"></span>
+      </button>
+    </header>
+    <main class="top_main">
+      <div class="l_contents">
+        <div class="l_container-sm">
+          <p>ポイント確認</p>
 
-    <p id="status">LINEのログイン状況確認</p>
+          <p id="status">LINEのログイン状況確認</p>
+        </div>
 
-    <div id="result" style="display: none">
-      <p>現在のポイント</p>
-      <h2><span id="point">0</span> pt</h2>
+        <div id="result" style="display: none">
+          <div class="l_container-sm">
+            <p>現在のポイント</p>
+            <p><span id="point">0</span> pt</p>
 
-      <p>
-        ランキング：
-        <span id="rank">-</span>位 / <span id="totalUsers">-</span>人
-      </p>
+            <p>
+              ランキング：
+              <span id="rank">-</span>位 / <span id="totalUsers">-</span>人
+            </p>
+          </div>
+          <div class="l_container-sm">
+            <hr />
 
-      <hr />
+            <p>次の報酬</p>
+            <p id="nextReward">-</p>
+            <p id="nextPoint"></p>
 
-      <p>次の報酬</p>
-      <p id="nextReward">-</p>
-      <p id="nextPoint"></p>
+            <hr />
+          </div>
+          <div class="l_container-sm">
+            <p>🎁 解放済み特典</p>
 
-      <hr />
-
-      <h3>🎁 解放済み特典</h3>
-
-      <div id="unlockedRewards">特典を確認中……</div>
-    </div>
-
-    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
-
-    <script>
-      const LIFF_ID = "2011066044-9W2pagv5";
-
-      const GAS_URL =
-        "https://script.google.com/macros/s/AKfycbz1eSFLwxabykW89URs1gj_FBjxEeMJr6GjUOYYUdgqaS4pW9hPjVresViL_XM5bu6r/exec";
-
-      async function main() {
-        try {
-          // =========================
-          // LIFF初期化
-          // =========================
-
-          await liff.init({
-            liffId: LIFF_ID,
-          });
-
-          // =========================
-          // LINEログイン確認
-          // =========================
-
-          if (!liff.isLoggedIn()) {
-            liff.login();
-            return;
-          }
-
-          // =========================
-          // LINEプロフィール取得
-          // =========================
-
-          const profile = await liff.getProfile();
-
-          const userId = profile.userId;
-          const displayName = profile.displayName;
-
-          // console.log("userId:", userId);
-          // console.log("displayName:", displayName);
-
-          document.getElementById("status").textContent =
-            "ポイントを確認しています……";
-
-          // =========================
-          // GASへポイント確認
-          // =========================
-
-          const response = await fetch(GAS_URL, {
-            method: "POST",
-
-            headers: {
-              "Content-Type": "text/plain;charset=utf-8",
-            },
-
-            body: JSON.stringify({
-              action: "getPoint",
-              userId: userId,
-            }),
-          });
-
-          // =========================
-          // GASレスポンス
-          // =========================
-
-          const result = await response.json();
-
-          // console.log("GAS response:", result);
-
-          if (!result.success) {
-            document.getElementById("status").textContent =
-              result.message || "ポイント情報を取得できませんでした";
-
-            return;
-          }
-
-          // =========================
-          // 画面表示
-          // =========================
-
-          document.getElementById("status").textContent =
-            `${displayName}さんのポイント情報`;
-
-          document.getElementById("point").textContent = result.totalPoint;
-
-          document.getElementById("rank").textContent = result.rank;
-
-          document.getElementById("totalUsers").textContent = result.totalUsers;
-
-          // =========================
-          // 次の報酬
-          // =========================
-
-          if (result.nextReward) {
-            document.getElementById("nextReward").textContent =
-              result.nextReward.rewardName;
-
-            const needPoint =
-              result.nextReward.requiredPoint - result.totalPoint;
-
-            document.getElementById("nextPoint").textContent =
-              `あと ${needPoint} pt`;
-          } else {
-            document.getElementById("nextReward").textContent =
-              "すべての報酬を解放済み！🎉";
-
-            document.getElementById("nextPoint").textContent = "";
-          }
-
-          // =========================
-          // 解放済み特典表示
-          // =========================
-
-          const unlockedRewardsElement =
-            document.getElementById("unlockedRewards");
-
-          if (result.unlockedRewards && result.unlockedRewards.length > 0) {
-            unlockedRewardsElement.innerHTML = "";
-
-            result.unlockedRewards.forEach((reward) => {
-              const div = document.createElement("div");
-
-              if (reward.used) {
-                div.innerHTML = `
-        <p>
-          🎁 ${reward.rewardName}<br>
-          <small>使用済み</small>
-        </p>
-      `;
-              } else {
-                div.innerHTML = `
-        <p>
-          🎁 ${reward.rewardName}<br>
-          <small>未使用</small>
-        </p>
-      `;
-              }
-
-              unlockedRewardsElement.appendChild(div);
-            });
-          } else {
-            unlockedRewardsElement.textContent =
-              "まだ解放された特典はありません";
-          }
-
-          document.getElementById("result").style.display = "block";
-        } catch (error) {
-          console.error(error);
-
-          document.getElementById("status").textContent =
-            "エラーが発生しました";
-        }
-      }
-
-      main();
-    </script>
+            <div id="unlockedRewards">特典を確認中……</div>
+          </div>
+        </div>
+      </div>
+    </main>
   </body>
 </html>
