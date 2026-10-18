@@ -1,5 +1,6 @@
-const LIFF_ID = "2011066044-9W2pagv5";
+"use strict";
 
+const LIFF_ID = "2011066044-9W2pagv5";
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbz1eSFLwxabykW89URs1gj_FBjxEeMJr6GjUOYYUdgqaS4pW9hPjVresViL_XM5bu6r/exec";
 
@@ -143,3 +144,48 @@ async function main() {
 }
 
 main();
+
+/*---------- ハンバーガーメニュー ----------*/
+const hamburger = document.querySelector(".js_hamburger");
+const navigation = document.querySelector(".js_nav");
+const body = document.querySelector(".js_body");
+let dwmkbn = 0;
+
+hamburger.addEventListener("click", () => {
+  hamburger.classList.toggle("is-active");
+  navigation.classList.toggle("is-active");
+  // body.classList.toggle("is-active");
+  if (body.classList.contains("is-active")) {
+    enableScroll();
+  } else {
+    disableScroll();
+  }
+  if (dwmkbn === 0) {
+    dwmkbn = 1;
+  } else {
+    dwmkbn = 0;
+  }
+});
+
+// PC幅でナビゲーションをクリックしても"is-active"がつかないようにします
+navigation.addEventListener("click", () => {
+  if (window.innerWidth < 1080) {
+    hamburger.classList.toggle("is-active");
+    navigation.classList.toggle("is-active");
+    // body.classList.toggle("is-active");
+    if (body.classList.contains("is-active")) {
+      enableScroll();
+    } else {
+      disableScroll();
+    }
+  }
+});
+
+// スマホ（ハンバーガーメニューをクリック）→PC→スマホに画面幅が変更されたとき、強制的に"is-active"を外す
+window.addEventListener("resize", () => {
+  if (window.innerWidth >= 1080) {
+    hamburger.classList.remove("is-active");
+    navigation.classList.remove("is-active");
+    body.classList.remove("is-active");
+  }
+});

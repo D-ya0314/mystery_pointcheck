@@ -81,7 +81,7 @@ body {
 }
 
 .l_contents {
-  padding: 80px 0;
+  padding: 40px 0;
 }
 
 .l_section {
@@ -408,19 +408,18 @@ body {
   font-size: 32px;
 }
 
-.m_question_p {
+.m_p {
   padding: 8px;
   font-weight: bold;
   text-shadow:
-    2px 0px 5px var(--white-color),
-    -2px 0px 5px var(--white-color),
-    0px 2px 5px var(--white-color),
-    0px -2px 5px var(--white-color),
-    2px 2px 5px var(--white-color),
-    -2px 2px 5px var(--white-color),
-    2px -2px 5px var(--white-color),
-    -2px -2px 5px var(--white-color);
-  margin-top: 16px;
+    0px 0px 0px var(--black-color),
+    0px 0px 0px var(--black-color),
+    0px 0px 0px var(--black-color),
+    0px -2px 5px var(--black-color),
+    2px 2px 5px var(--black-color),
+    -2px 2px 5px var(--black-color),
+    2px -2px 5px var(--black-color),
+    -2px -2px 5px var(--black-color);
 }
 
 .m_answer {
