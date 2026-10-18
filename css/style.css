@@ -410,6 +410,7 @@ body {
 .m_p {
   font-size: 16px;
   text-shadow: 1px 1px 3px var(--gray-color);
+  color: var(--white-color);
 }
 
 .m_answer {
@@ -460,6 +461,10 @@ body {
 
 .m_p-w {
   color: var(--white-color);
+}
+
+.m_p-b {
+  color: var(--bluck-color);
 }
 
 /* ---------- Start ---------- */
