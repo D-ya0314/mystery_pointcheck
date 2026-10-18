@@ -364,7 +364,7 @@ body {
   position: relative;
   width: 32px;
   height: 24px;
-  background-color: #00000000;
+  background-color: var(--white-color);
 }
 
 @media screen and (min-width: 1080px) {
@@ -396,7 +396,6 @@ body {
   transform: translateY(-100%);
 }
 
-
 .m_img {
   height: 100%;
   object-fit: contain;
@@ -409,17 +408,8 @@ body {
 }
 
 .m_p {
-  padding: 8px;
-  font-weight: bold;
-  text-shadow:
-    0px 0px 0px var(--black-color),
-    0px 0px 0px var(--black-color),
-    0px 0px 0px var(--black-color),
-    0px -2px 5px var(--black-color),
-    2px 2px 5px var(--black-color),
-    -2px 2px 5px var(--black-color),
-    2px -2px 5px var(--black-color),
-    -2px -2px 5px var(--black-color);
+  padding: 16px;
+  text-shadow: 2px 3px 3px var(--black-color);
 }
 
 .m_answer {
@@ -607,8 +597,6 @@ body {
 .m_blue {
   color: blue;
 }
-
-
 
 /* ---------- js ---------- */
 .js_hidden {
