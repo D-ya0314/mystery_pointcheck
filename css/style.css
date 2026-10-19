@@ -13,7 +13,7 @@
   --black-color: #333;
   --white-color: #fff;
   --gray-color: #aaa;
-  --gray-color02: #fafafa5e;
+  --gray-color02: #4444445e;
   --gray-color03: #aaaaaa57;
   --primary-color: #d4c2ff;
   --accent-color: #170050;
@@ -58,6 +58,7 @@ body {
   width: 100%;
   padding: 0 16px;
   margin: 0 auto;
+  background-color: var(--gray-color02);
 }
 
 @media screen and (min-width: 768px) {
@@ -82,7 +83,6 @@ body {
 
 .l_contents {
   padding: 40px 0;
-  background-color: var(--gray-color02);
 }
 
 .l_section {
