@@ -58,7 +58,6 @@ body {
   width: 100%;
   padding: 0 16px;
   margin: 0 auto;
-  background-color: var(--gray-color02);
 }
 
 @media screen and (min-width: 768px) {
@@ -82,7 +81,9 @@ body {
 }
 
 .l_contents {
+  margin-top: 16px;
   padding: 40px 0;
+  background-color: var(--gray-color02);
 }
 
 .l_section {
