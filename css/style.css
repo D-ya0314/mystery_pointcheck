@@ -380,6 +380,27 @@ body {
   color: var(--white-color);
 }
 
+/*---------------ポイント履歴---------------*/
+.point-history-status {
+  margin-top: 16px;
+  padding: 16px;
+  border: 1px dashed var(--gray-color);
+  text-align: center;
+}
+
+.point-history-list {
+  margin-top: 16px;
+}
+
+.point-history-item {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 8px 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--gray-color);
+}
+
 .m_btn {
   padding: 0.5em 1em;
   margin-top: 1em;

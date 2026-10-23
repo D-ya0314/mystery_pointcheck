@@ -4,6 +4,82 @@ const LIFF_ID = "2011066044-9W2pagv5";
 const GAS_URL =
   "https://script.google.com/macros/s/AKfycbz1eSFLwxabykW89URs1gj_FBjxEeMJr6GjUOYYUdgqaS4pW9hPjVresViL_XM5bu6r/exec";
 
+async function loadPointHistory(userId) {
+  const statusElement = document.getElementById("pointHistoryStatus");
+  const historyListElement = document.getElementById("pointHistoryList");
+
+  const showStatus = (message) => {
+    statusElement.textContent = message;
+    statusElement.hidden = false;
+    historyListElement.hidden = true;
+    historyListElement.replaceChildren();
+  };
+
+  try {
+    const response = await fetch(GAS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "text/plain;charset=utf-8",
+      },
+      body: JSON.stringify({
+        action: "getPointHistory",
+        userId: userId,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("ポイント獲得履歴を取得できませんでした");
+    }
+
+    const result = await response.json();
+
+    if (!result.success || !Array.isArray(result.history)) {
+      showStatus("開発中");
+      return;
+    }
+
+    if (result.history.length === 0) {
+      showStatus("獲得履歴はありません");
+      return;
+    }
+
+    historyListElement.replaceChildren();
+
+    result.history.forEach((history) => {
+      const item = document.createElement("li");
+      item.className = "m_p point-history-item";
+
+      const date = new Date(history.createdAt);
+      const dateText = Number.isNaN(date.getTime())
+        ? String(history.createdAt ?? "")
+        : new Intl.DateTimeFormat("ja-JP", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+
+      const dateElement = document.createElement("span");
+      dateElement.textContent = dateText;
+
+      const categoryElement = document.createElement("span");
+      categoryElement.textContent = String(history.categoryName ?? "");
+
+      const pointElement = document.createElement("span");
+      pointElement.textContent = `${history.point ?? 0} pt`;
+
+      item.append(dateElement, categoryElement, pointElement);
+      historyListElement.appendChild(item);
+    });
+
+    statusElement.hidden = true;
+    historyListElement.hidden = false;
+  } catch (error) {
+    showStatus("開発中");
+  }
+}
+
 async function main() {
   try {
     // =========================
@@ -31,6 +107,9 @@ async function main() {
 
     const userId = profile.userId;
     const displayName = profile.displayName;
+
+    // 履歴APIが未準備または取得に失敗した場合は「開発中」を表示します。
+    loadPointHistory(userId);
 
     // console.log("userId:", userId);
     // console.log("displayName:", displayName);
