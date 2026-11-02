@@ -80,6 +80,7 @@
     </header>
     <main class="top_main">
       <section id="section0">
+        <div id="pointOverview">
         <div class="l_contents">
           <div class="l_container-sm">
             <p class="m_p" id="status">LINEのログイン状況確認</p>
@@ -111,15 +112,19 @@
             <div id="unlockedRewards">特典を確認中……</div>
           </div>
         </div>
+        </div>
         <div class="l_contents">
           <div class="l_container-sm">
-            <p class="m_p">ポイント獲得履歴</p>
+            <h2 class="m_p" id="historyHeading">ポイント獲得履歴（最新3件）</h2>
+            <p class="m_p" id="historyPreviewNotice" hidden>ローカルプレビュー（サンプルデータ）</p>
             <div id="pointHistory" aria-live="polite">
               <p class="m_p point-history-status" id="pointHistoryStatus" role="status">
-                開発中
+                履歴を読み込んでいます……
               </p>
               <ul class="point-history-list" id="pointHistoryList" hidden></ul>
             </div>
+            <a class="m_btn point-history-link" id="historyDetailsLink" href="?view=history">詳細</a>
+            <a class="m_btn point-history-link" id="historyBackLink" href="index.html" hidden>戻る</a>
           </div>
         </div>
       </section>

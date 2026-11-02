@@ -477,3 +477,11 @@ body {
   top: 50%;
   transform: rotate(-45deg);
 }
+
+.point-history-link {
+  display: inline-block;
+}
+
+.point-history-link[hidden] {
+  display: none;
+}
