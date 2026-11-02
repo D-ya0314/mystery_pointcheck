@@ -81,6 +81,29 @@ async function loadPointHistory(userId) {
 }
 
 async function main() {
+  // ローカルではLINE認証や本番APIを使わず、画面確認用の値を表示する。
+  const isLocal =
+    window.location.protocol === "file:" ||
+    ["localhost", "127.0.0.1", "[::1]"].includes(window.location.hostname);
+
+  if (isLocal) {
+    document.getElementById("status").textContent =
+      "ローカルプレビュー（サンプルデータ）";
+    document.getElementById("point").textContent = "100";
+    document.getElementById("rank").textContent = "1";
+    document.getElementById("totalUsers").textContent = "10";
+    document.getElementById("nextReward").textContent = "サンプル特典";
+    document.getElementById("nextPoint").textContent = "あと 100 pt";
+    document.getElementById("unlockedRewards").textContent =
+      "まだ解放された特典はありません";
+    document.getElementById("pointHistoryStatus").textContent =
+      "ローカルプレビューでは獲得履歴を取得しません";
+    document.getElementById("pointHistoryStatus").hidden = false;
+    document.getElementById("pointHistoryList").hidden = true;
+    document.getElementById("result").style.display = "block";
+    return;
+  }
+
   try {
     // =========================
     // LIFF初期化
